@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Home</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="user">
+  <main class="shell single">
+    <section class="panel">
+      <div class="page-header">
+        <div>
+          <p class="eyebrow">User Page</p>
+          <h1>Member home</h1>
+        </div>
+        <div class="page-actions">
+          <a id="login-nav-button" class="button-link secondary" href="index.html?login=1">Login</a>
+          <button id="logout-button" class="secondary">Logout</button>
+        </div>
+      </div>
+      <p id="member-lead" class="lead">Only standard users can stay on this page. Admins are redirected to their dashboard.</p>
+      <div class="card-grid">
+        <article class="stat-card">
+          <h2>Account Type</h2>
+          <p id="account-role">User</p>
+        </article>
+        <article class="stat-card">
+          <h2>Publishing Model</h2>
+          <p>One council-approved musing is highlighted weekly to prioritize depth over volume.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="submit-section" class="panel">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Submit A Musing</p>
+          <h2>Send for council discernment</h2>
+        </div>
+      </div>
+      <form id="post-form" class="form">
+        <label>
+          <span>Musing title</span>
+          <input type="text" name="title" placeholder="Write a short headline" maxlength="80" required>
+        </label>
+        <label>
+          <span>One-minute script or transcript</span>
+          <textarea name="content" rows="5" placeholder="Write the reflection content for review" maxlength="900" required></textarea>
+        </label>
+        <label>
+          <span>Media type</span>
+          <select name="mediaType" required>
+            <option value="video" selected>Video</option>
+            <option value="audio">Audio recording</option>
+            <option value="image">Image</option>
+            <option value="gif">GIF</option>
+          </select>
+        </label>
+        <label>
+          <span>Attach media file (optional)</span>
+          <input type="file" name="mediaFile" accept="video/*,audio/*,image/*,.gif">
+          <small class="field-hint">Accepted: video, audio, image, GIF. Max 4 MB per upload.</small>
+        </label>
+        <div id="media-upload-preview" class="media-upload-preview-block" hidden></div>
+        <label>
+          <span>Why this matters</span>
+          <textarea name="whyMatters" rows="3" placeholder="Explain why this topic matters for communal discernment" maxlength="320" required></textarea>
+        </label>
+        <label>
+          <span>What conversation should this spark?</span>
+          <textarea name="hopedConversation" rows="3" placeholder="Describe the kind of response or reflection you hope to invite" maxlength="320" required></textarea>
+        </label>
+        <label>
+          <span>Category</span>
+          <select name="category" required>
+            <option value="" selected disabled>Select a category</option>
+            <option value="Identity & Worth">Identity & Worth</option>
+            <option value="Struggle & Brokenness">Struggle & Brokenness</option>
+            <option value="Purpose & Meaning">Purpose & Meaning</option>
+            <option value="Right, Wrong & Justice">Right, Wrong & Justice</option>
+            <option value="Love & Relationships">Love & Relationships</option>
+            <option value="Control vs Surrender">Control vs Surrender</option>
+            <option value="Hope & Fear">Hope & Fear</option>
+            <option value="Authenticity vs Image">Authenticity vs Image</option>
+            <option value="Doubt & Faith">Doubt & Faith</option>
+            <option value="Who Jesus Is (Encountering Christ)">Who Jesus Is (Encountering Christ)</option>
+          </select>
+        </label>
+        <label>
+          <span>Sensitivity level</span>
+          <select name="sensitivity" required>
+            <option value="low">Low</option>
+            <option value="medium" selected>Medium</option>
+            <option value="high">High</option>
+          </select>
+        </label>
+        <label class="checkline">
+          <input type="checkbox" name="declaration" required>
+          <span>I confirm this submission contains no personal accusation, no identifiable target, and is a reflection rather than a report.</span>
+        </label>
+        <button type="submit">Submit for approval</button>
+        <p id="post-message" class="message" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">This Week's Musing</p>
+          <h2>Curated reflection and community response</h2>
+        </div>
+      </div>
+      <p id="feed-lead" class="lead compact">Users can comment on posts only after an admin approves them.</p>
+      <div id="approved-feed" class="stack-list"></div>
+      <p id="feed-empty-state" class="empty-state">No approved weekly musing yet.</p>
+    </section>
+
+    <section id="notifications-section" class="panel">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Council Updates</p>
+          <h2>Submission decisions</h2>
+        </div>
+      </div>
+      <div id="notification-list" class="stack-list"></div>
+      <p id="notification-empty-state" class="empty-state">No new notifications.</p>
+    </section>
+
+    <section id="my-suggestions-section" class="panel">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">My Submissions</p>
+          <h2>Pending or revision-requested musings</h2>
+        </div>
+      </div>
+      <div id="user-post-list" class="stack-list"></div>
+      <p id="user-empty-state" class="empty-state">You have no musings awaiting review.</p>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Weekly Rhythm</p>
+          <h2>How the flow works</h2>
+        </div>
+      </div>
+      <p class="lead compact">Anonymusing is intentionally slow and structured. Each week follows this loop so depth stays higher than volume.</p>
+      <div class="card-grid">
+        <article class="stat-card">
+          <h2>1. Submit</h2>
+          <p>A member submits a musing with context, intent, and declaration.</p>
+        </article>
+        <article class="stat-card">
+          <h2>2. Discern</h2>
+          <p>The council reviews it for clarity, constructiveness, and discussability.</p>
+        </article>
+        <article class="stat-card">
+          <h2>3. Publish</h2>
+          <p>One approved musing is released as the weekly focal reflection.</p>
+        </article>
+        <article class="stat-card">
+          <h2>4. Respond</h2>
+          <p>Members engage through structured streams, not open-ended chaos.</p>
+        </article>
+        <article class="stat-card">
+          <h2>5. Surface</h2>
+          <p>The strongest responses rise through one-account interaction signals.</p>
+        </article>
+        <article class="stat-card">
+          <h2>6. Deepen</h2>
+          <p>Responses can be forwarded to admin as sub-muse proposals for deeper follow-up.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div id="guest-login-modal" class="modal-overlay" aria-hidden="true">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="guest-login-title">
+      <button id="guest-login-close" type="button" class="secondary modal-close" data-action="close-login-modal" aria-label="Close login window">X</button>
+      <p class="eyebrow">Member Login</p>
+      <h2 id="guest-login-title">Login to comment</h2>
+      <form id="guest-login-form" class="form">
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" placeholder="name@example.com" required>
+        </label>
+        <label>
+          <span>Password</span>
+          <input type="password" name="password" placeholder="Enter password" required>
+        </label>
+        <button type="submit">Login</button>
+        <button type="button" class="secondary" data-action="close-login-modal">Cancel</button>
+        <a class="button-link secondary" href="index.html?login=1">Create account</a>
+        <p id="guest-login-message" class="message" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

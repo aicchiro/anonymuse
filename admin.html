@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="admin">
+  <main class="shell single">
+    <section class="panel">
+      <div class="page-header">
+        <div>
+          <p class="eyebrow">Admin Page</p>
+          <h1>Dashboard control center</h1>
+        </div>
+        <button id="logout-button" class="secondary">Logout</button>
+      </div>
+      <p class="lead">Only admins can stay on this page. Regular users are redirected away.</p>
+      <div class="card-grid">
+        <article class="stat-card">
+          <h2>Account Type</h2>
+          <p id="account-role">Admin</p>
+        </article>
+        <article class="stat-card">
+          <h2>Pending Musings</h2>
+          <p id="pending-count">0 waiting for review</p>
+        </article>
+        <article class="stat-card">
+          <h2>Sub-muse Requests</h2>
+          <p id="submuse-count">0 awaiting review</p>
+        </article>
+        <article class="stat-card">
+          <h2>Reported Responses</h2>
+          <p id="flagged-count">0 reported responses</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Discernment Queue</p>
+          <h2>Review user-submitted musings</h2>
+        </div>
+      </div>
+      <div id="admin-post-list" class="stack-list"></div>
+      <p id="admin-empty-state" class="empty-state">No pending musings right now.</p>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Sub-muse Queue</p>
+          <h2>Responses forwarded for deeper musing</h2>
+        </div>
+      </div>
+      <div id="submuse-request-list" class="stack-list"></div>
+      <p id="submuse-empty-state" class="empty-state">No sub-muse requests waiting right now.</p>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Response Moderation</p>
+          <h2>Detailed community reports</h2>
+        </div>
+      </div>
+      <div id="flagged-response-list" class="stack-list"></div>
+      <p id="flagged-empty-state" class="empty-state">No reported responses at the moment.</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

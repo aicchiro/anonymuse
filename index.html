@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anonymusing.org</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="login">
+  <main class="shell">
+    <section class="panel hero">
+      <p class="eyebrow">Anonymusing.org</p>
+      <h1>A curated space for anonymous Christian reflection and discernment.</h1>
+      <p class="lead">Anonymusing surfaces difficult but necessary conversations through anonymous one-minute musings, elder curation, and structured community response.</p>
+      <div class="card-grid">
+        <article class="stat-card">
+          <h2>Anonymity</h2>
+          <p>Contributors submit privately. Published musings remain anonymous to protect honest expression.</p>
+        </article>
+        <article class="stat-card">
+          <h2>Curation</h2>
+          <p>A council of elders reviews all submissions before publication for sincerity and discussability.</p>
+        </article>
+        <article class="stat-card">
+          <h2>Discernment</h2>
+          <p>Responses are designed to deepen understanding, not reward outrage.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="eyebrow">Member Access</p>
+      <h2>Login or Sign up</h2>
+      <p class="lead compact">Use demo credentials or create a new user account.</p>
+      <div class="credentials compact-grid">
+        <article>
+          <h2>Admin</h2>
+          <p>Email: <code>admin@test.com</code></p>
+          <p>Password: <code>Admin123!</code></p>
+        </article>
+        <article>
+          <h2>User</h2>
+          <p>Email: <code>user@test.com</code></p>
+          <p>Password: <code>User123!</code></p>
+        </article>
+      </div>
+      <form id="login-form" class="form">
+        <p class="eyebrow">Login</p>
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" placeholder="name@example.com" required>
+        </label>
+        <label>
+          <span>Password</span>
+          <input type="password" name="password" placeholder="Enter password" required>
+        </label>
+        <button type="submit">Login</button>
+        <p id="login-message" class="message" aria-live="polite"></p>
+      </form>
+
+      <form id="signup-form" class="form">
+        <p class="eyebrow">Create Account</p>
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" placeholder="newuser@example.com" required>
+        </label>
+        <label>
+          <span>Password</span>
+          <input type="password" name="password" placeholder="At least 8 characters" minlength="8" required>
+        </label>
+        <label>
+          <span>Confirm password</span>
+          <input type="password" name="confirmPassword" placeholder="Re-enter password" minlength="8" required>
+        </label>
+        <button type="submit">Sign up</button>
+        <p id="signup-message" class="message" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="panel span-two">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Why This Exists</p>
+          <h2>The Problem and Opportunity</h2>
+        </div>
+      </div>
+      <div class="card-grid">
+        <article class="stat-card">
+          <h2>The Problem</h2>
+          <ul class="clean-list">
+            <li>Many believers hold real concerns but avoid speaking openly.</li>
+            <li>Fear of judgment can suppress meaningful conversations.</li>
+            <li>Leaders may miss emerging tensions in the community.</li>
+          </ul>
+        </article>
+        <article class="stat-card">
+          <h2>The Opportunity</h2>
+          <ul class="clean-list">
+            <li>Create safety without sacrificing accountability.</li>
+            <li>Replace reactive debate with moderated reflection.</li>
+            <li>Turn private burdens into shared discernment.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel span-two">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Core Experience</p>
+          <h2>How The Platform Works</h2>
+        </div>
+      </div>
+      <div class="phase-list">
+        <article class="stat-card">
+          <h2>1. Submission</h2>
+          <p>Users submit one-minute musings privately. Identity is known to the platform but never publicly exposed.</p>
+        </article>
+        <article class="stat-card">
+          <h2>2. Elder Review</h2>
+          <p>The council reviews for constructiveness, clarity, and discussability without demanding agreement.</p>
+        </article>
+        <article class="stat-card">
+          <h2>3. Weekly Publishing</h2>
+          <p>One approved musing is released weekly as video or audio with transcript.</p>
+        </article>
+        <article class="stat-card">
+          <h2>4. Structured Responses</h2>
+          <p>Community members respond through defined modes: Resonates, Pushes Back, Worth Discussing, and Needs Review.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel span-two">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Governance</p>
+          <h2>Trust, Safety, and Safeguards</h2>
+        </div>
+      </div>
+      <div class="card-grid">
+        <article class="stat-card">
+          <h2>Council Principles</h2>
+          <ul class="clean-list">
+            <li>Guard integrity without gatekeeping by personal preference.</li>
+            <li>Reject personal allegations and insider-only narratives.</li>
+            <li>Require content to be understandable and discussable in public context.</li>
+          </ul>
+        </article>
+        <article class="stat-card">
+          <h2>Risk Controls</h2>
+          <ul class="clean-list">
+            <li>Strict moderation queue for harmful or divisive content.</li>
+            <li>Low-frequency publishing to avoid sensationalism incentives.</li>
+            <li>Transparent policy and governance standards.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel span-two">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Roadmap</p>
+          <h2>Strategic Phases</h2>
+        </div>
+      </div>
+      <div class="phase-list">
+        <article class="stat-card">
+          <h2>Phase 1</h2>
+          <p>Submission system, elder review workflow, weekly publishing, and moderation baseline.</p>
+        </article>
+        <article class="stat-card">
+          <h2>Phase 2</h2>
+          <p>Media expansion with stronger audio/video storytelling and optional identity-masking formats.</p>
+        </article>
+        <article class="stat-card">
+          <h2>Phase 3</h2>
+          <p>Mission-aligned monetization such as sponsored leader responses and charity-linked access.</p>
+        </article>
+        <article class="stat-card">
+          <h2>Phase 4</h2>
+          <p>Topic channels, facilitated discussion rooms, and regional/thematic councils.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel span-two">
+      <p class="eyebrow">Vision</p>
+      <h2>Surface truth without fear, and pursue discernment together.</h2>
+      <p class="lead">Anonymusing exists to create a trusted place where difficult conversations can be voiced responsibly, examined collectively, and translated into mature communal growth.</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
