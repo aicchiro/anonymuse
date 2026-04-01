@@ -4,11 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Anonymusing.org</title>
+  <script>
+    try {
+      const savedTheme = localStorage.getItem("anonymuse.theme");
+      if (savedTheme) {
+        document.documentElement.dataset.theme = savedTheme;
+      }
+    } catch (error) {}
+  </script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body data-page="login">
   <main class="shell">
-    <section class="panel hero">
+    <section class="panel">
       <p class="eyebrow">Anonymusing.org</p>
       <h1>A curated space for anonymous Christian reflection and discernment.</h1>
       <p class="lead">Anonymusing surfaces difficult but necessary conversations through anonymous one-minute musings, elder curation, and structured community response.</p>

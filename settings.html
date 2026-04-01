@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings</title>
+  <script>
+    try {
+      const savedTheme = localStorage.getItem("anonymuse.theme");
+      if (savedTheme) {
+        document.documentElement.dataset.theme = savedTheme;
+      }
+    } catch (error) {}
+  </script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="user-settings">
+  <main class="shell single">
+    <section class="panel">
+      <div class="page-header">
+        <div>
+          <p class="eyebrow">Settings</p>
+          <h1>Account and platform context</h1>
+        </div>
+        <div class="page-actions">
+          <a id="login-nav-button" class="button-link secondary" href="index.html?login=1">Login</a>
+          <button id="logout-button" class="secondary">Logout</button>
+        </div>
+      </div>
+      <p id="member-lead" class="lead">Only standard users can stay on this page. Admins are redirected to their dashboard.</p>
+      <div class="card-grid">
+        <article class="stat-card">
+          <h2>Account Type</h2>
+          <p id="account-role">User</p>
+        </article>
+        <article class="stat-card">
+          <h2>Active Aesthetic</h2>
+          <p id="active-theme-name">Hearth</p>
+          <p id="active-theme-description" class="field-hint">Warm parchment surfaces with terracotta accents and an editorial feel.</p>
+        </article>
+        <article class="stat-card">
+          <h2>Status</h2>
+          <p>Use this page to understand platform intent and safeguards.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Appearance</p>
+          <h2>Switch the site aesthetic</h2>
+        </div>
+      </div>
+      <p class="lead compact">Choose the look that fits your mood. Changes apply immediately and stay saved on this device.</p>
+      <form id="theme-settings-form" class="form">
+        <div class="theme-choice-grid" role="radiogroup" aria-label="Website aesthetics">
+          <label class="theme-choice">
+            <input type="radio" name="themePreference" value="hearth">
+            <span class="theme-choice-card">
+              <span class="theme-choice-header">
+                <strong>Hearth</strong>
+                <span class="theme-choice-note">Warm editorial</span>
+              </span>
+              <span class="theme-choice-copy">Parchment tones, terracotta emphasis, and a reflective print-like atmosphere.</span>
+              <span class="theme-swatch-row" aria-hidden="true">
+                <span class="theme-swatch swatch-hearth-1"></span>
+                <span class="theme-swatch swatch-hearth-2"></span>
+                <span class="theme-swatch swatch-hearth-3"></span>
+              </span>
+            </span>
+          </label>
+
+          <label class="theme-choice">
+            <input type="radio" name="themePreference" value="tideline">
+            <span class="theme-choice-card">
+              <span class="theme-choice-header">
+                <strong>Tideline</strong>
+                <span class="theme-choice-note">Sea-glass calm</span>
+              </span>
+              <span class="theme-choice-copy">Cool mineral greens and soft blue-greys for a lighter, quieter browsing feel.</span>
+              <span class="theme-swatch-row" aria-hidden="true">
+                <span class="theme-swatch swatch-tideline-1"></span>
+                <span class="theme-swatch swatch-tideline-2"></span>
+                <span class="theme-swatch swatch-tideline-3"></span>
+              </span>
+            </span>
+          </label>
+
+          <label class="theme-choice">
+            <input type="radio" name="themePreference" value="nocturne">
+            <span class="theme-choice-card">
+              <span class="theme-choice-header">
+                <strong>Nocturne</strong>
+                <span class="theme-choice-note">Ink and lantern</span>
+              </span>
+              <span class="theme-choice-copy">Deep navy panels with gold highlights for a duskier and more dramatic interface.</span>
+              <span class="theme-swatch-row" aria-hidden="true">
+                <span class="theme-swatch swatch-nocturne-1"></span>
+                <span class="theme-swatch swatch-nocturne-2"></span>
+                <span class="theme-swatch swatch-nocturne-3"></span>
+              </span>
+            </span>
+          </label>
+        </div>
+        <div class="actions-row">
+          <button type="button" class="secondary" data-action="reset-theme-preference">Restore default aesthetic</button>
+        </div>
+        <p id="theme-settings-message" class="message" aria-live="polite">Appearance updates instantly when you choose a different aesthetic.</p>
+      </form>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">What This Is For</p>
+          <h2>Purpose and weekly rhythm</h2>
+        </div>
+      </div>
+      <p class="lead compact">Anonymusing is intentionally slow and structured. It exists so people can surface difficult reflections safely and discuss them with depth instead of outrage.</p>
+      <div class="card-grid">
+        <article class="stat-card">
+          <h2>1. Submit</h2>
+          <p>A member submits a musing with context, intent, and declaration.</p>
+        </article>
+        <article class="stat-card">
+          <h2>2. Discern</h2>
+          <p>The council reviews it for clarity, constructiveness, and discussability.</p>
+        </article>
+        <article class="stat-card">
+          <h2>3. Publish</h2>
+          <p>One approved musing is released as the weekly focal reflection.</p>
+        </article>
+        <article class="stat-card">
+          <h2>4. Respond</h2>
+          <p>Members engage through structured streams, not open-ended chaos.</p>
+        </article>
+        <article class="stat-card">
+          <h2>5. Surface</h2>
+          <p>The strongest responses rise through one-account interaction signals.</p>
+        </article>
+        <article class="stat-card">
+          <h2>6. Deepen</h2>
+          <p>Responses can be forwarded to admin as sub-muse proposals for deeper follow-up.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <nav id="bottom-taskbar" class="bottom-taskbar" aria-label="Primary" hidden>
+    <a class="task-link" href="user.html">Posts</a>
+    <a class="task-link is-current" href="settings.html" aria-current="page">Settings</a>
+    <a class="task-link" href="suggestion.html">Suggestion</a>
+  </nav>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
+  <script>
+    try {
+      const savedTheme = localStorage.getItem("anonymuse.theme");
+      if (savedTheme) {
+        document.documentElement.dataset.theme = savedTheme;
+      }
+    } catch (error) {}
+  </script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body data-page="admin">

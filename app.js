@@ -4,6 +4,7 @@ const POST_STORAGE_KEY = "anonymuse.posts";
 const COMMENT_STORAGE_KEY = "anonymuse.comments";
 const DISMISSED_NOTIFICATION_STORAGE_KEY = "anonymuse.dismissedNotifications";
 const RESPONSE_DRAFT_STORAGE_KEY = "anonymuse.responseDrafts";
+const THEME_STORAGE_KEY = "anonymuse.theme";
 const RESPONSE_WORD_LIMIT = 300;
 const RESPONSE_DRAFT_AUTOSAVE_DELAY_MS = 350;
 const REPORT_DETAIL_MIN_CHARS = 30;
@@ -42,6 +43,29 @@ const REPORT_URGENCY_OPTIONS = [
   { key: "low", label: "Low urgency" }
 ];
 const DEFAULT_RESPONSE_TYPE = RESPONSE_STREAMS[0].key;
+const THEME_OPTIONS = [
+  {
+    key: "hearth",
+    label: "Hearth",
+    description: "Warm parchment surfaces with terracotta accents and an editorial feel."
+  },
+  {
+    key: "tideline",
+    label: "Tideline",
+    description: "Sea-glass greens and cool stone tones for a calmer, lighter interface."
+  },
+  {
+    key: "nocturne",
+    label: "Nocturne",
+    description: "Deep ink-blue panels with lantern-gold highlights for a duskier atmosphere."
+  }
+];
+const DEFAULT_THEME = THEME_OPTIONS[0].key;
+const LEGACY_DEMO_POST_TITLES = new Set([
+  "test",
+  "feature idea",
+  "welcome to the community"
+]);
 
 const seedAccounts = [
   {
@@ -60,23 +84,25 @@ const seedAccounts = [
 
 const seedPosts = [
   {
-    id: 1,
+    id: 103,
+    seedKey: "weekly-2026-03-31-main",
     userEmail: "user@test.com",
-    title: "What does silence protect in a group conversation?",
-    content: "In this week's reflection, we notice how silence can be both refuge and avoidance. The question is not who failed to speak, but what the silence was holding in place and what it cost the room.",
+    title: "What are we protecting when no one names burnout in ministry?",
+    content: "This week's reflection sits with the quiet exhaustion that builds when service becomes performance. If everyone looks dependable in public but depleted in private, a ministry can start rewarding disappearance instead of discipleship.",
     format: "One-minute audio reflection",
-    whyMatters: "Silence in spiritual spaces can reveal both wisdom and fear. Naming it helps communities discern what is happening beneath the surface.",
-    hopedConversation: "How do we distinguish healthy silence from avoidance in church culture?",
-    category: "Church culture",
+    whyMatters: "Communities often praise availability without noticing the cost. Honest language around burnout makes care, rest, and sustainable leadership more possible.",
+    hopedConversation: "How do we build a culture where people can name exhaustion before resentment hardens?",
+    category: "Ministry life",
     sensitivity: "medium",
     declarationAccepted: true,
     status: "approved",
     approvedBy: "admin@test.com",
-    createdAt: "2026-03-24T09:00:00.000Z",
-    approvedAt: "2026-03-24T09:15:00.000Z"
+    createdAt: "2026-03-31T09:00:00.000Z",
+    approvedAt: "2026-03-31T09:12:00.000Z"
   },
   {
     id: 2,
+    seedKey: "pending-feature-bookmarks",
     userEmail: "user@test.com",
     title: "Feature idea",
     content: "Could we add a bookmarks section for saved content?",
@@ -92,17 +118,115 @@ const seedPosts = [
     createdAt: "2026-03-24T10:00:00.000Z",
     approvedAt: null,
     rejectedAt: null
+  },
+  {
+    id: 101,
+    seedKey: "weekly-2026-03-17-main",
+    userEmail: "user@test.com",
+    title: "When does certainty stop being honest?",
+    content: "This week's reflection asks what happens when confident language leaves no room for repentance, nuance, or lived contradiction. A testimony can sound bold while quietly teaching people that doubt must stay hidden.",
+    format: "One-minute video reflection",
+    whyMatters: "Communities need language that keeps conviction and humility together.",
+    hopedConversation: "How do we speak faithfully without pretending we have no questions?",
+    category: "Theology",
+    sensitivity: "medium",
+    declarationAccepted: true,
+    status: "approved",
+    approvedBy: "admin@test.com",
+    createdAt: "2026-03-17T09:00:00.000Z",
+    approvedAt: "2026-03-17T09:20:00.000Z"
+  },
+  {
+    id: 102,
+    seedKey: "weekly-2026-03-10-main",
+    userEmail: "user@test.com",
+    title: "Who gets missed when testimony sounds triumphant?",
+    content: "In this week's reflection, we ask who disappears when every testimony has to end in victory. Some people are still in grief, still in treatment, still waiting, and they should not have to translate their pain into a triumph before being believed.",
+    format: "One-minute audio reflection",
+    whyMatters: "A healthier church culture can witness suffering without rushing to tidy it up.",
+    hopedConversation: "What would a testimony sound like if it made room for unresolved grief?",
+    category: "Pastoral care",
+    sensitivity: "high",
+    declarationAccepted: true,
+    status: "approved",
+    approvedBy: "admin@test.com",
+    createdAt: "2026-03-10T09:00:00.000Z",
+    approvedAt: "2026-03-10T09:18:00.000Z"
+  },
+  {
+    id: 111,
+    seedKey: "weekly-2026-03-31-sub-rest-before-breakdown",
+    userEmail: "user@test.com",
+    parentPostId: 103,
+    sourceCommentId: 201,
+    promotedBy: "user@test.com",
+    promotedAt: "2026-03-31T13:00:00.000Z",
+    title: "What does rest sound like before someone breaks down?",
+    content: "This follow-up musing asks how a church can treat early fatigue as something to attend to, not something to spiritualize away. Care usually begins when people are believed before they become a crisis.",
+    format: "One-minute audio reflection",
+    whyMatters: "Naming tiredness early can protect both leaders and the people they serve.",
+    hopedConversation: "What signals tell someone they can speak honestly about limits without being seen as less faithful?",
+    category: "Ministry life",
+    sensitivity: "medium",
+    declarationAccepted: true,
+    status: "approved",
+    approvedBy: "admin@test.com",
+    createdAt: "2026-03-31T12:40:00.000Z",
+    approvedAt: "2026-04-01T08:45:00.000Z"
+  },
+  {
+    id: 112,
+    seedKey: "weekly-2026-03-17-sub-gentle-correction",
+    userEmail: "user@test.com",
+    parentPostId: 101,
+    sourceCommentId: 204,
+    promotedBy: "user@test.com",
+    promotedAt: "2026-03-17T15:20:00.000Z",
+    title: "What does gentle correction sound like in public?",
+    content: "This sub-musing follows the question of certainty into conflict. The issue is not whether correction happens, but whether people leave feeling cornered or accompanied toward truth.",
+    format: "One-minute video reflection",
+    whyMatters: "Communities reveal their character in how they handle disagreement.",
+    hopedConversation: "What makes correction restorative instead of performative?",
+    category: "Leadership",
+    sensitivity: "medium",
+    declarationAccepted: true,
+    status: "approved",
+    approvedBy: "admin@test.com",
+    createdAt: "2026-03-17T15:10:00.000Z",
+    approvedAt: "2026-03-18T08:30:00.000Z"
+  },
+  {
+    id: 113,
+    seedKey: "weekly-2026-03-10-sub-grief-space",
+    userEmail: "user@test.com",
+    parentPostId: 102,
+    sourceCommentId: 207,
+    promotedBy: "user@test.com",
+    promotedAt: "2026-03-10T14:20:00.000Z",
+    title: "How should testimony make space for grief?",
+    content: "This follow-up musing stays with the people still waiting for relief. The invitation is to imagine testimony as witness, not proof that suffering has already been resolved.",
+    format: "One-minute audio reflection",
+    whyMatters: "Naming grief honestly helps people belong before they are better.",
+    hopedConversation: "How can testimony honor God's presence without editing out ongoing pain?",
+    category: "Pastoral care",
+    sensitivity: "high",
+    declarationAccepted: true,
+    status: "approved",
+    approvedBy: "admin@test.com",
+    createdAt: "2026-03-10T14:05:00.000Z",
+    approvedAt: "2026-03-11T08:10:00.000Z"
   }
 ];
 
 const seedComments = [
   {
     id: 1,
-    postId: 1,
+    seedKey: "comment-2026-03-31-main-resonates",
+    postId: 103,
     userEmail: "user@test.com",
     responseType: "resonates",
     parentResponseId: null,
-    content: "Glad this one made it into the feed.",
+    content: "This one feels painfully familiar. A lot of people disappear quietly long before anyone asks how they are doing.",
     likedBy: ["user@test.com"],
     resonatedBy: ["user@test.com"],
     discussedBy: ["user@test.com"],
@@ -113,7 +237,227 @@ const seedComments = [
     discussCount: 1,
     flagCount: 0,
     status: "active",
-    createdAt: "2026-03-24T10:30:00.000Z"
+    createdAt: "2026-03-31T10:30:00.000Z"
+  },
+  {
+    id: 201,
+    seedKey: "comment-2026-03-31-main-worth-discussing",
+    postId: 103,
+    userEmail: "user@test.com",
+    responseType: "worth_discussing",
+    parentResponseId: null,
+    content: "A follow-up on what healthy rest looks like in ministry would help. People often need permission before they ask for it.",
+    likedBy: [],
+    resonatedBy: [],
+    discussedBy: [],
+    flaggedBy: [],
+    reports: [],
+    likeCount: 4,
+    resonatesCount: 2,
+    discussCount: 5,
+    flagCount: 0,
+    status: "active",
+    createdAt: "2026-03-31T11:05:00.000Z"
+  },
+  {
+    id: 202,
+    seedKey: "comment-2026-03-31-main-pushes-back",
+    postId: 103,
+    userEmail: "user@test.com",
+    responseType: "pushes_back",
+    parentResponseId: null,
+    content: "Some exhaustion is also about boundaries, not only church culture. It would be good to talk about responsibility on both sides.",
+    likedBy: [],
+    resonatedBy: [],
+    discussedBy: [],
+    flaggedBy: [],
+    reports: [],
+    likeCount: 2,
+    resonatesCount: 1,
+    discussCount: 3,
+    flagCount: 0,
+    status: "active",
+    createdAt: "2026-03-31T11:18:00.000Z"
+  },
+  {
+    id: 203,
+    seedKey: "comment-2026-03-17-main-resonates",
+    postId: 101,
+    userEmail: "user@test.com",
+    responseType: "resonates",
+    parentResponseId: null,
+    content: "Strong language helps some people hold on, but it should not erase the reality of doubt.",
+    likedBy: [],
+    resonatedBy: [],
+    discussedBy: [],
+    flaggedBy: [],
+    reports: [],
+    likeCount: 3,
+    resonatesCount: 4,
+    discussCount: 2,
+    flagCount: 0,
+    status: "active",
+    createdAt: "2026-03-17T10:12:00.000Z"
+  },
+  {
+    id: 204,
+    seedKey: "comment-2026-03-17-main-worth-discussing",
+    postId: 101,
+    userEmail: "user@test.com",
+    responseType: "worth_discussing",
+    parentResponseId: null,
+    content: "A sub-muse on public correction would be helpful because tone changes everything.",
+    likedBy: [],
+    resonatedBy: [],
+    discussedBy: [],
+    flaggedBy: [],
+    reports: [],
+    likeCount: 2,
+    resonatesCount: 2,
+    discussCount: 6,
+    flagCount: 0,
+    status: "active",
+    createdAt: "2026-03-17T10:28:00.000Z"
+  },
+  {
+    id: 205,
+    seedKey: "comment-2026-03-17-main-pushes-back",
+    postId: 101,
+    userEmail: "user@test.com",
+    responseType: "pushes_back",
+    parentResponseId: null,
+    content: "I do not mind certainty itself; I mind when certainty becomes untouchable.",
+    likedBy: [],
+    resonatedBy: [],
+    discussedBy: [],
+    flaggedBy: [],
+    reports: [],
+    likeCount: 1,
+    resonatesCount: 1,
+    discussCount: 2,
+    flagCount: 0,
+    status: "active",
+    createdAt: "2026-03-17T10:41:00.000Z"
+  },
+  {
+    id: 206,
+    seedKey: "comment-2026-03-10-main-resonates",
+    postId: 102,
+    userEmail: "user@test.com",
+    responseType: "resonates",
+    parentResponseId: null,
+    content: "Some testimonies feel impossible to imitate if you are still in the middle of loss.",
+    likedBy: [],
+    resonatedBy: [],
+    discussedBy: [],
+    flaggedBy: [],
+    reports: [],
+    likeCount: 3,
+    resonatesCount: 5,
+    discussCount: 1,
+    flagCount: 0,
+    status: "active",
+    createdAt: "2026-03-10T10:00:00.000Z"
+  },
+  {
+    id: 207,
+    seedKey: "comment-2026-03-10-main-worth-discussing",
+    postId: 102,
+    userEmail: "user@test.com",
+    responseType: "worth_discussing",
+    parentResponseId: null,
+    content: "Can we talk more about how grief belongs in testimony without becoming a lesson?",
+    likedBy: [],
+    resonatedBy: [],
+    discussedBy: [],
+    flaggedBy: [],
+    reports: [],
+    likeCount: 2,
+    resonatesCount: 2,
+    discussCount: 6,
+    flagCount: 0,
+    status: "active",
+    createdAt: "2026-03-10T10:18:00.000Z"
+  },
+  {
+    id: 208,
+    seedKey: "comment-2026-03-10-main-pushes-back",
+    postId: 102,
+    userEmail: "user@test.com",
+    responseType: "pushes_back",
+    parentResponseId: null,
+    content: "Victory stories matter too, but they should not be the only stories we platform.",
+    likedBy: [],
+    resonatedBy: [],
+    discussedBy: [],
+    flaggedBy: [],
+    reports: [],
+    likeCount: 1,
+    resonatesCount: 1,
+    discussCount: 3,
+    flagCount: 0,
+    status: "active",
+    createdAt: "2026-03-10T10:32:00.000Z"
+  },
+  {
+    id: 211,
+    seedKey: "comment-2026-03-31-sub-rest-before-breakdown",
+    postId: 111,
+    userEmail: "user@test.com",
+    responseType: "resonates",
+    parentResponseId: null,
+    content: "Gentle check-ins and honest scheduling would help more than waiting for someone to hit a wall.",
+    likedBy: [],
+    resonatedBy: [],
+    discussedBy: [],
+    flaggedBy: [],
+    reports: [],
+    likeCount: 2,
+    resonatesCount: 3,
+    discussCount: 2,
+    flagCount: 0,
+    status: "active",
+    createdAt: "2026-04-01T09:10:00.000Z"
+  },
+  {
+    id: 212,
+    seedKey: "comment-2026-03-17-sub-gentle-correction",
+    postId: 112,
+    userEmail: "user@test.com",
+    responseType: "worth_discussing",
+    parentResponseId: null,
+    content: "Gentle correction sounds like staying with a person after the public moment is over.",
+    likedBy: [],
+    resonatedBy: [],
+    discussedBy: [],
+    flaggedBy: [],
+    reports: [],
+    likeCount: 1,
+    resonatesCount: 2,
+    discussCount: 4,
+    flagCount: 0,
+    status: "active",
+    createdAt: "2026-03-18T09:05:00.000Z"
+  },
+  {
+    id: 213,
+    seedKey: "comment-2026-03-10-sub-grief-space",
+    postId: 113,
+    userEmail: "user@test.com",
+    responseType: "resonates",
+    parentResponseId: null,
+    content: "Hearing unresolved grief spoken plainly would probably help more people feel seen.",
+    likedBy: [],
+    resonatedBy: [],
+    discussedBy: [],
+    flaggedBy: [],
+    reports: [],
+    likeCount: 2,
+    resonatesCount: 4,
+    discussCount: 2,
+    flagCount: 0,
+    status: "active",
+    createdAt: "2026-03-11T08:50:00.000Z"
   }
 ];
 
@@ -257,6 +601,40 @@ function normalizeResponse(response) {
   };
 }
 
+function mergeSeedRecords(storedRecords, seedRecords, normalizer) {
+  const normalizedStored = storedRecords.map((record) => normalizer(record));
+  const existingIds = new Set(
+    normalizedStored
+      .map((record) => Number(record.id))
+      .filter((id) => Number.isFinite(id))
+  );
+  const existingSeedKeys = new Set(
+    normalizedStored
+      .map((record) => String(record.seedKey || "").trim())
+      .filter(Boolean)
+  );
+
+  seedRecords.forEach((record) => {
+    const normalizedSeed = normalizer(record);
+    const seedKey = String(normalizedSeed.seedKey || "").trim();
+    const id = Number(normalizedSeed.id);
+
+    if ((Number.isFinite(id) && existingIds.has(id)) || (seedKey && existingSeedKeys.has(seedKey))) {
+      return;
+    }
+
+    normalizedStored.push(normalizedSeed);
+    if (Number.isFinite(id)) {
+      existingIds.add(id);
+    }
+    if (seedKey) {
+      existingSeedKeys.add(seedKey);
+    }
+  });
+
+  return normalizedStored;
+}
+
 function ensurePosts() {
   const stored = localStorage.getItem(POST_STORAGE_KEY);
   if (!stored) {
@@ -270,7 +648,7 @@ function ensurePosts() {
       localStorage.setItem(POST_STORAGE_KEY, JSON.stringify(seedPosts));
       return;
     }
-    const normalized = parsed.map((post) => normalizePost(post));
+    const normalized = mergeSeedRecords(parsed, seedPosts, normalizePost);
     localStorage.setItem(POST_STORAGE_KEY, JSON.stringify(normalized));
   } catch (error) {
     localStorage.setItem(POST_STORAGE_KEY, JSON.stringify(seedPosts));
@@ -290,7 +668,7 @@ function ensureComments() {
       localStorage.setItem(COMMENT_STORAGE_KEY, JSON.stringify(seedComments));
       return;
     }
-    const normalized = parsed.map((comment) => normalizeResponse(comment));
+    const normalized = mergeSeedRecords(parsed, seedComments, normalizeResponse);
     localStorage.setItem(COMMENT_STORAGE_KEY, JSON.stringify(normalized));
   } catch (error) {
     localStorage.setItem(COMMENT_STORAGE_KEY, JSON.stringify(seedComments));
@@ -471,6 +849,35 @@ function clearResponseDraft(postId, userEmail) {
   saveResponseDrafts(drafts);
 }
 
+function isValidThemePreference(themeInput) {
+  const theme = String(themeInput || "").trim();
+  return THEME_OPTIONS.some((option) => option.key === theme);
+}
+
+function getThemePreference() {
+  const storedTheme = String(localStorage.getItem(THEME_STORAGE_KEY) || "").trim();
+  return isValidThemePreference(storedTheme) ? storedTheme : DEFAULT_THEME;
+}
+
+function saveThemePreference(themeInput) {
+  const theme = isValidThemePreference(themeInput) ? String(themeInput).trim() : DEFAULT_THEME;
+  localStorage.setItem(THEME_STORAGE_KEY, theme);
+  return theme;
+}
+
+function getThemeOption(themeInput) {
+  return THEME_OPTIONS.find((option) => option.key === themeInput) || THEME_OPTIONS[0];
+}
+
+function applyThemePreference(themeInput = getThemePreference()) {
+  const theme = isValidThemePreference(themeInput) ? String(themeInput).trim() : DEFAULT_THEME;
+  document.documentElement.dataset.theme = theme;
+  if (document.body) {
+    document.body.dataset.theme = theme;
+  }
+  return theme;
+}
+
 function setSession(account) {
   sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(account));
 }
@@ -578,6 +985,11 @@ function bindSignup() {
   });
 }
 
+function isUserAreaPage(pageInput) {
+  const page = String(pageInput || "");
+  return page === "user" || page === "user-settings" || page === "user-suggestion";
+}
+
 function guardPage() {
   const page = document.body.dataset.page;
   const session = getSession();
@@ -608,7 +1020,7 @@ function guardPage() {
     }
   }
 
-  if (page === "user" && session?.role === "admin") {
+  if (isUserAreaPage(page) && session?.role === "admin") {
     window.location.replace("admin.html");
     return;
   }
@@ -635,6 +1047,86 @@ function bindLogout() {
 
 function formatDate(value) {
   return new Date(value).toLocaleString();
+}
+
+function formatRelativeDate(value) {
+  const timestamp = new Date(value).getTime();
+  if (!Number.isFinite(timestamp)) {
+    return formatDate(value);
+  }
+
+  const diffMs = Date.now() - timestamp;
+  if (diffMs < 0) {
+    return formatDate(value);
+  }
+
+  const diffMinutes = Math.floor(diffMs / 60000);
+  if (diffMinutes < 60) {
+    return `${Math.max(1, diffMinutes)}m ago`;
+  }
+
+  const diffHours = Math.floor(diffMinutes / 60);
+  if (diffHours < 24) {
+    return `${diffHours}h ago`;
+  }
+
+  const diffDays = Math.floor(diffHours / 24);
+  if (diffDays < 7) {
+    return `${diffDays}d ago`;
+  }
+
+  const diffWeeks = Math.floor(diffDays / 7);
+  if (diffWeeks < 5) {
+    return `${diffWeeks}w ago`;
+  }
+
+  return formatDate(value);
+}
+
+function formatWeekLabel(value) {
+  const timestamp = new Date(value).getTime();
+  if (!Number.isFinite(timestamp)) {
+    return "Weekly muse";
+  }
+
+  return `Week of ${new Date(timestamp).toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  })}`;
+}
+
+function getSummaryExcerpt(post, maxLength = 170) {
+  const source = String(
+    post.content ||
+    post.whyMatters ||
+    post.hopedConversation ||
+    ""
+  ).replace(/\s+/g, " ").trim();
+
+  if (!source) {
+    return "";
+  }
+
+  if (source.length <= maxLength) {
+    return source;
+  }
+
+  return `${source.slice(0, maxLength).trimEnd()}...`;
+}
+
+function isLegacyDemoPost(post) {
+  if (!post || typeof post !== "object" || Array.isArray(post)) {
+    return false;
+  }
+
+  if (post.parentPostId || post.status !== "approved") {
+    return false;
+  }
+
+  const seedKey = String(post.seedKey || "").trim();
+  const title = String(post.title || "").trim().toLowerCase();
+  return !seedKey && LEGACY_DEMO_POST_TITLES.has(title);
 }
 
 function getResponseLabel(responseType) {
@@ -739,14 +1231,22 @@ function getResponseScore(response) {
   return (response.resonatesCount * 2) + response.discussCount + response.likeCount - (response.flagCount * 2);
 }
 
+function sortPostsByApprovalDateDesc(posts) {
+  return [...posts].sort((first, second) => {
+    const firstDate = new Date(first.approvedAt || first.createdAt).getTime();
+    const secondDate = new Date(second.approvedAt || second.createdAt).getTime();
+    return secondDate - firstDate;
+  });
+}
+
 function getLatestApprovedPost(posts) {
-  return posts
-    .filter((post) => post.status === "approved" && !post.parentPostId)
-    .sort((first, second) => {
-      const firstDate = new Date(first.approvedAt || first.createdAt).getTime();
-      const secondDate = new Date(second.approvedAt || second.createdAt).getTime();
-      return secondDate - firstDate;
-    })[0] || null;
+  return getRecentApprovedPosts(posts, 1)[0] || null;
+}
+
+function getRecentApprovedPosts(posts, limit = 3) {
+  return sortPostsByApprovalDateDesc(
+    posts.filter((post) => post.status === "approved" && !post.parentPostId && !isLegacyDemoPost(post))
+  ).slice(0, limit);
 }
 
 function getApprovedSubMusings(posts, parentPostId) {
@@ -757,6 +1257,29 @@ function getApprovedSubMusings(posts, parentPostId) {
       const secondDate = new Date(second.approvedAt || second.createdAt).getTime();
       return firstDate - secondDate;
     });
+}
+
+function getActiveResponsesForPost(comments, postId) {
+  return comments.filter((comment) =>
+    comment.postId === postId &&
+    comment.status !== "removed"
+  );
+}
+
+function getTopLevelResponsesForPost(comments, postId) {
+  return getActiveResponsesForPost(comments, postId)
+    .filter((response) => response.parentResponseId === null);
+}
+
+function getChildResponsesForResponse(comments, parentResponseId) {
+  return comments
+    .filter((response) =>
+      response.parentResponseId === parentResponseId &&
+      response.status !== "removed"
+    )
+    .sort((first, second) =>
+      new Date(first.createdAt).getTime() - new Date(second.createdAt).getTime()
+    );
 }
 
 function hasOpenSubMusingRequest(posts, parentPostId, sourceCommentId, userEmail = "") {
@@ -830,8 +1353,46 @@ function buildMediaPreview(post) {
 function buildPostCard(post, options = {}) {
   const card = document.createElement("article");
   card.className = "feed-card";
+  const isHomepageListing = document.body.dataset.page === "user" && !options.includeApprove && !options.showOwner;
+  const allComments = (options.includeComments || isHomepageListing) ? getComments() : [];
+  const postResponses = (options.includeComments || isHomepageListing)
+    ? getActiveResponsesForPost(allComments, post.id)
+    : [];
+  const subMusingCount = Number(options.subMusingCount || 0);
+
   if (post.parentPostId) {
     card.classList.add("sub-musing-card");
+  }
+  if (isHomepageListing) {
+    card.classList.add("reddit-feed-card");
+  }
+
+  let contentContainer = card;
+  if (isHomepageListing) {
+    const postScore = postResponses.reduce((sum, response) => sum + Math.max(0, getResponseScore(response)), 0);
+    const voteRail = document.createElement("div");
+    voteRail.className = "reddit-feed-vote";
+    voteRail.setAttribute("aria-hidden", "true");
+
+    const voteScore = document.createElement("strong");
+    voteScore.className = "reddit-feed-score";
+    voteScore.textContent = String(postScore);
+
+    const voteLabel = document.createElement("span");
+    voteLabel.className = "reddit-feed-score-label";
+    voteLabel.textContent = "Depth";
+
+    const body = document.createElement("div");
+    body.className = "reddit-feed-body";
+
+    const listingMeta = document.createElement("p");
+    listingMeta.className = "reddit-listing-meta";
+    listingMeta.textContent = `Anonymous post | ${formatRelativeDate(post.approvedAt || post.createdAt)} | Community board`;
+
+    voteRail.append(voteScore, voteLabel);
+    body.appendChild(listingMeta);
+    card.append(voteRail, body);
+    contentContainer = body;
   }
 
   const title = document.createElement("h3");
@@ -875,11 +1436,11 @@ function buildPostCard(post, options = {}) {
     meta.appendChild(rejected);
   }
 
-  card.append(title, formatLine, content);
+  contentContainer.append(title, formatLine, content);
 
   const mediaPreview = buildMediaPreview(post);
   if (mediaPreview) {
-    card.appendChild(mediaPreview);
+    contentContainer.appendChild(mediaPreview);
   }
 
   if (post.parentPostId) {
@@ -888,24 +1449,58 @@ function buildPostCard(post, options = {}) {
     subMusingLine.textContent = post.promotedBy
       ? `Sub-muse requested by ${post.promotedBy}`
       : "Sub-muse linked to the main musing";
-    card.appendChild(subMusingLine);
+    contentContainer.appendChild(subMusingLine);
   }
 
   if (post.whyMatters) {
     const whyMatters = document.createElement("p");
     whyMatters.className = "lead compact";
     whyMatters.textContent = `Why this matters: ${post.whyMatters}`;
-    card.appendChild(whyMatters);
+    contentContainer.appendChild(whyMatters);
   }
 
   if (post.hopedConversation) {
     const hopedConversation = document.createElement("p");
     hopedConversation.className = "lead compact";
     hopedConversation.textContent = `Conversation prompt: ${post.hopedConversation}`;
-    card.appendChild(hopedConversation);
+    contentContainer.appendChild(hopedConversation);
   }
 
-  card.append(metadataLine, meta);
+  contentContainer.append(metadataLine, meta);
+
+  if (isHomepageListing) {
+    const listingActions = document.createElement("div");
+    listingActions.className = "reddit-listing-actions";
+
+    const responseChip = document.createElement("span");
+    responseChip.textContent = `${postResponses.length} responses`;
+    listingActions.appendChild(responseChip);
+
+    if (!post.parentPostId && subMusingCount > 0) {
+      const openSubMusingsButton = document.createElement("button");
+      openSubMusingsButton.type = "button";
+      openSubMusingsButton.className = "sub-musing-link-button";
+      openSubMusingsButton.dataset.action = "open-sub-musings";
+      openSubMusingsButton.dataset.postId = String(post.id);
+      openSubMusingsButton.textContent = subMusingCount === 1
+        ? "Open 1 sub-musing"
+        : `Open ${subMusingCount} sub-musings`;
+      openSubMusingsButton.setAttribute(
+        "aria-label",
+        subMusingCount === 1
+          ? "Open the sub-musing discussion"
+          : `Open ${subMusingCount} sub-musing discussions`
+      );
+      listingActions.appendChild(openSubMusingsButton);
+    }
+
+    ["Reflect", "Share", "Keep"].forEach((label) => {
+      const chip = document.createElement("span");
+      chip.textContent = label;
+      listingActions.appendChild(chip);
+    });
+    contentContainer.appendChild(listingActions);
+  }
 
   if (options.includeApprove) {
     const actions = document.createElement("div");
@@ -932,26 +1527,18 @@ function buildPostCard(post, options = {}) {
     reviseButton.dataset.action = "revise";
 
     actions.append(approveButton, reviseButton, rejectButton);
-    card.appendChild(actions);
+    contentContainer.appendChild(actions);
   }
 
   if (options.includeComments) {
-    const responses = getComments().filter((comment) =>
-      comment.postId === post.id &&
-      comment.status !== "removed"
-    );
-    const topLevelResponses = responses.filter((response) => response.parentResponseId === null);
+    const topLevelResponses = getTopLevelResponsesForPost(allComments, post.id);
     const posts = getPosts();
     const streamGrid = document.createElement("div");
     streamGrid.className = "response-stream-grid";
 
     RESPONSE_STREAMS.forEach((stream) => {
-      const streamBlock = document.createElement("section");
+      const streamBlock = document.createElement("details");
       streamBlock.className = "response-stream";
-
-      const streamTitle = document.createElement("h4");
-      streamTitle.textContent = `Top ${stream.label}`;
-      streamBlock.appendChild(streamTitle);
 
       const topResponses = topLevelResponses
         .filter((response) => response.responseType === stream.key)
@@ -964,6 +1551,20 @@ function buildPostCard(post, options = {}) {
         })
         .slice(0, 3);
 
+      const streamSummary = document.createElement("summary");
+      streamSummary.className = "response-stream-summary";
+
+      const streamTitle = document.createElement("span");
+      streamTitle.className = "response-stream-title";
+      streamTitle.textContent = `Top ${stream.label}`;
+
+      const streamCount = document.createElement("span");
+      streamCount.className = "response-stream-count";
+      streamCount.textContent = topResponses.length === 1 ? "1 response" : `${topResponses.length} responses`;
+
+      streamSummary.append(streamTitle, streamCount);
+      streamBlock.appendChild(streamSummary);
+
       if (topResponses.length === 0) {
         const emptyStream = document.createElement("p");
         emptyStream.className = "empty-state";
@@ -974,6 +1575,7 @@ function buildPostCard(post, options = {}) {
           const item = document.createElement("div");
           item.className = "comment-item";
           item.dataset.commentId = String(response.id);
+          const responseReplies = getChildResponsesForResponse(allComments, response.id);
 
           const text = document.createElement("p");
           text.textContent = response.content;
@@ -984,11 +1586,33 @@ function buildPostCard(post, options = {}) {
 
           const signals = document.createElement("span");
           signals.className = "meta-row";
-          signals.textContent = `${response.likeCount} \u2665 | ${response.resonatesCount} resonates | ${response.discussCount} discuss | ${response.flagCount} reports`;
+          signals.textContent = `${response.likeCount} \u2665 | ${response.resonatesCount} resonates | ${response.discussCount} discuss | ${response.flagCount} reports | ${responseReplies.length} ${responseReplies.length === 1 ? "comment" : "comments"}`;
 
           item.append(text, metaText, signals);
 
-          if (options.allowSignals) {
+          if (responseReplies.length > 0) {
+            const replyList = document.createElement("div");
+            replyList.className = "response-reply-list";
+
+            responseReplies.forEach((reply) => {
+              const replyItem = document.createElement("div");
+              replyItem.className = "response-reply-item";
+
+              const replyText = document.createElement("p");
+              replyText.textContent = reply.content;
+
+              const replyMeta = document.createElement("span");
+              replyMeta.className = "meta-row";
+              replyMeta.textContent = `Anonymous comment | ${formatDate(reply.createdAt)}`;
+
+              replyItem.append(replyText, replyMeta);
+              replyList.appendChild(replyItem);
+            });
+
+            item.appendChild(replyList);
+          }
+
+          if (options.allowSignals || options.allowComment) {
             const userEmail = String(options.currentUserEmail || "").toLowerCase();
             const reports = getResponseReports(response);
             const hasLikedResponse = Boolean(userEmail) && Array.isArray(response.likedBy) && response.likedBy.includes(userEmail);
@@ -998,73 +1622,90 @@ function buildPostCard(post, options = {}) {
             const signalRow = document.createElement("div");
             signalRow.className = "actions-row compact-actions";
 
-            const resonateButton = document.createElement("button");
-            resonateButton.type = "button";
-            resonateButton.className = "secondary";
-            resonateButton.dataset.action = "signal-resonate";
-            resonateButton.dataset.commentId = String(response.id);
-            resonateButton.textContent = hasResonated ? "Resonated" : "Resonates";
-            resonateButton.disabled = hasResonated;
-
-            const discussButton = document.createElement("button");
-            discussButton.type = "button";
-            discussButton.className = "secondary";
-            discussButton.dataset.action = "signal-discuss";
-            discussButton.dataset.commentId = String(response.id);
-            discussButton.textContent = hasDiscussed ? "Marked Discuss" : "Worth discussing";
-            discussButton.disabled = hasDiscussed;
-
-            const reportButton = document.createElement("button");
-            reportButton.type = "button";
-            reportButton.className = "secondary";
-            reportButton.dataset.action = "open-report-form";
-            reportButton.dataset.commentId = String(response.id);
-            reportButton.textContent = hasReported ? "Reported" : "Report concern";
-            reportButton.disabled = hasReported;
-
-            const likeButton = document.createElement("button");
-            likeButton.type = "button";
-            likeButton.className = "secondary";
-            likeButton.dataset.action = "like-response";
-            likeButton.dataset.commentId = String(response.id);
-            likeButton.textContent = hasLikedResponse ? "\u2665 Liked" : "\u2661 Like";
-            likeButton.disabled = hasLikedResponse;
-
-            const actionMenu = document.createElement("details");
-            actionMenu.className = "action-menu";
-
-            const menuToggle = document.createElement("summary");
-            menuToggle.className = "menu-toggle";
-            menuToggle.textContent = "\u2630";
-
-            const menuPanel = document.createElement("div");
-            menuPanel.className = "menu-panel";
-            menuPanel.append(resonateButton, discussButton, reportButton);
-
-            if (!post.parentPostId) {
-              const requestSubMusingButton = document.createElement("button");
-              requestSubMusingButton.type = "button";
-              requestSubMusingButton.className = "secondary";
-              requestSubMusingButton.dataset.action = "request-sub-musing";
-              requestSubMusingButton.dataset.postId = String(post.id);
-              requestSubMusingButton.dataset.commentId = String(response.id);
-
-              const alreadyRequested = hasOpenSubMusingRequest(posts, post.id, response.id, userEmail);
-              requestSubMusingButton.disabled = alreadyRequested;
-              requestSubMusingButton.textContent = alreadyRequested ? "Sent To Admin" : "Further To Admin";
-              menuPanel.appendChild(requestSubMusingButton);
+            if (options.allowSignals) {
+              const likeButton = document.createElement("button");
+              likeButton.type = "button";
+              likeButton.className = "secondary";
+              likeButton.dataset.action = "like-response";
+              likeButton.dataset.commentId = String(response.id);
+              likeButton.textContent = hasLikedResponse ? "\u2665 Liked" : "\u2661 Like";
+              likeButton.disabled = hasLikedResponse;
+              signalRow.appendChild(likeButton);
             }
 
-            actionMenu.append(menuToggle, menuPanel);
-            signalRow.append(likeButton, actionMenu);
+            if (options.allowComment) {
+              const replyButton = document.createElement("button");
+              replyButton.type = "button";
+              replyButton.className = "secondary";
+              replyButton.dataset.action = "toggle-reply-form";
+              replyButton.dataset.commentId = String(response.id);
+              replyButton.textContent = responseReplies.length > 0 ? `Comment (${responseReplies.length})` : "Comment";
+              signalRow.appendChild(replyButton);
+            }
+
+            if (options.allowSignals) {
+              const actionMenu = document.createElement("details");
+              actionMenu.className = "action-menu";
+
+              const menuToggle = document.createElement("summary");
+              menuToggle.className = "menu-toggle";
+              menuToggle.textContent = "\u2630";
+
+              const menuPanel = document.createElement("div");
+              menuPanel.className = "menu-panel";
+
+              const resonateButton = document.createElement("button");
+              resonateButton.type = "button";
+              resonateButton.className = "secondary";
+              resonateButton.dataset.action = "signal-resonate";
+              resonateButton.dataset.commentId = String(response.id);
+              resonateButton.textContent = hasResonated ? "Resonated" : "Resonates";
+              resonateButton.disabled = hasResonated;
+              menuPanel.appendChild(resonateButton);
+
+              const discussButton = document.createElement("button");
+              discussButton.type = "button";
+              discussButton.className = "secondary";
+              discussButton.dataset.action = "signal-discuss";
+              discussButton.dataset.commentId = String(response.id);
+              discussButton.textContent = hasDiscussed ? "Marked Discuss" : "Worth discussing";
+              discussButton.disabled = hasDiscussed;
+              menuPanel.appendChild(discussButton);
+
+              const reportButton = document.createElement("button");
+              reportButton.type = "button";
+              reportButton.className = "secondary";
+              reportButton.dataset.action = "open-report-form";
+              reportButton.dataset.commentId = String(response.id);
+              reportButton.textContent = hasReported ? "Reported" : "Report concern";
+              reportButton.disabled = hasReported;
+              menuPanel.appendChild(reportButton);
+
+              if (!post.parentPostId) {
+                const alreadyRequested = hasOpenSubMusingRequest(posts, post.id, response.id, userEmail);
+                const requestSubMusingButton = document.createElement("button");
+                requestSubMusingButton.type = "button";
+                requestSubMusingButton.className = "secondary";
+                requestSubMusingButton.dataset.action = "request-sub-musing";
+                requestSubMusingButton.dataset.postId = String(post.id);
+                requestSubMusingButton.dataset.commentId = String(response.id);
+                requestSubMusingButton.textContent = alreadyRequested ? "Sent To Admin" : "Further To Admin";
+                requestSubMusingButton.disabled = alreadyRequested;
+                menuPanel.appendChild(requestSubMusingButton);
+              }
+
+              actionMenu.append(menuToggle, menuPanel);
+              signalRow.appendChild(actionMenu);
+            }
+
             item.appendChild(signalRow);
 
-            if (hasReported) {
+            if (options.allowSignals && hasReported) {
               const alreadyReported = document.createElement("p");
               alreadyReported.className = "meta-row";
               alreadyReported.textContent = "You have already submitted a report for this response.";
               item.appendChild(alreadyReported);
-            } else {
+            } else if (options.allowSignals) {
               const reportForm = document.createElement("form");
               reportForm.className = "report-form";
               reportForm.dataset.commentId = String(response.id);
@@ -1131,6 +1772,55 @@ function buildPostCard(post, options = {}) {
               reportForm.append(reasonLabel, urgencyLabel, detailsLabel, reportSubmit, reportMessage);
               item.appendChild(reportForm);
             }
+
+            if (options.allowComment) {
+              const replyForm = document.createElement("form");
+              replyForm.className = "reply-form";
+              replyForm.dataset.postId = String(post.id);
+              replyForm.dataset.parentResponseId = String(response.id);
+              replyForm.hidden = true;
+
+              const replyType = document.createElement("input");
+              replyType.type = "hidden";
+              replyType.name = "responseType";
+              replyType.value = response.responseType;
+
+              const replyLabel = document.createElement("label");
+              const replyLabelText = document.createElement("span");
+              replyLabelText.textContent = `Comment on this ${getResponseLabel(response.responseType).toLowerCase()} response`;
+              const replyTextarea = document.createElement("textarea");
+              replyTextarea.name = "comment";
+              replyTextarea.rows = 3;
+              replyTextarea.maxLength = 1500;
+              replyTextarea.placeholder = "Write a short anonymous comment";
+              replyTextarea.required = true;
+              replyLabel.append(replyLabelText, replyTextarea);
+
+              const replyHelper = document.createElement("p");
+              replyHelper.className = "empty-state";
+              replyHelper.textContent = `Keep comments under ${RESPONSE_WORD_LIMIT} words.`;
+
+              const replyActions = document.createElement("div");
+              replyActions.className = "actions-row compact-actions response-form-actions";
+
+              const replySubmit = document.createElement("button");
+              replySubmit.type = "submit";
+              replySubmit.textContent = "Post comment";
+
+              const replyCancel = document.createElement("button");
+              replyCancel.type = "button";
+              replyCancel.className = "secondary";
+              replyCancel.dataset.action = "cancel-reply-form";
+              replyCancel.textContent = "Cancel";
+
+              const replyMessage = document.createElement("p");
+              replyMessage.className = "message";
+              replyMessage.setAttribute("aria-live", "polite");
+
+              replyActions.append(replySubmit, replyCancel);
+              replyForm.append(replyType, replyLabel, replyHelper, replyActions, replyMessage);
+              item.appendChild(replyForm);
+            }
           }
 
           streamBlock.appendChild(item);
@@ -1140,7 +1830,7 @@ function buildPostCard(post, options = {}) {
       streamGrid.appendChild(streamBlock);
     });
 
-    card.appendChild(streamGrid);
+    contentContainer.appendChild(streamGrid);
 
     if (options.allowComment) {
       const currentUserEmail = String(options.currentUserEmail || "").trim().toLowerCase();
@@ -1205,7 +1895,7 @@ function buildPostCard(post, options = {}) {
       }
 
       form.append(typeLabel, textarea, helper, draftActions, submit, formMessage);
-      card.append(form);
+      contentContainer.append(form);
     } else {
       const guestPrompt = document.createElement("div");
       guestPrompt.className = "guest-login-prompt";
@@ -1221,7 +1911,7 @@ function buildPostCard(post, options = {}) {
       guestLoginButton.dataset.action = "open-login-modal";
 
       guestPrompt.append(guestHint, guestLoginButton);
-      card.append(guestPrompt);
+      contentContainer.append(guestPrompt);
     }
   }
 
@@ -1363,6 +2053,123 @@ function renderFlaggedResponses() {
   emptyState.hidden = flaggedResponses.length > 0;
 }
 
+function buildMusingThread(post, options = {}) {
+  const posts = Array.isArray(options.posts) ? options.posts : getPosts();
+  const comments = Array.isArray(options.comments) ? options.comments : getComments();
+  const includeSubMusings = options.includeSubMusings !== false;
+  const topLevelResponses = getTopLevelResponsesForPost(comments, post.id);
+  const approvedSubMusings = includeSubMusings ? getApprovedSubMusings(posts, post.id) : [];
+
+  const thread = document.createElement("details");
+  thread.className = "muse-thread-card";
+  thread.dataset.postId = String(post.id);
+  if (options.nested) {
+    thread.classList.add("is-nested");
+  }
+  if (options.open) {
+    thread.open = true;
+  }
+
+  const summary = document.createElement("summary");
+  summary.className = "muse-thread-summary";
+
+  const summaryCopy = document.createElement("div");
+  summaryCopy.className = "muse-summary-copy";
+
+  const summaryEyebrow = document.createElement("p");
+  summaryEyebrow.className = "muse-summary-eyebrow";
+  summaryEyebrow.textContent = options.nested
+    ? "Follow-up sub-musing"
+    : formatWeekLabel(post.approvedAt || post.createdAt);
+
+  const summaryTitle = document.createElement("strong");
+  summaryTitle.className = "muse-summary-title";
+  summaryTitle.textContent = post.title;
+
+  const summaryExcerpt = document.createElement("p");
+  summaryExcerpt.className = "muse-summary-excerpt";
+  summaryExcerpt.textContent = getSummaryExcerpt(post);
+
+  const summaryMeta = document.createElement("div");
+  summaryMeta.className = "muse-summary-meta";
+
+  const metaChips = [
+    post.category || "General",
+    topLevelResponses.length === 1 ? "1 discussion" : `${topLevelResponses.length} discussions`
+  ];
+
+  if (options.nested) {
+    metaChips.push(formatRelativeDate(post.approvedAt || post.createdAt));
+  } else {
+    metaChips.push(
+      approvedSubMusings.length === 1 ? "1 sub-musing" : `${approvedSubMusings.length} sub-musings`
+    );
+  }
+
+  metaChips.forEach((label) => {
+    const chip = document.createElement("span");
+    chip.className = "muse-summary-chip";
+    chip.textContent = label;
+    summaryMeta.appendChild(chip);
+  });
+
+  summaryCopy.append(summaryEyebrow, summaryTitle);
+  if (summaryExcerpt.textContent) {
+    summaryCopy.appendChild(summaryExcerpt);
+  }
+  summaryCopy.appendChild(summaryMeta);
+
+  const summaryToggle = document.createElement("span");
+  summaryToggle.className = "muse-summary-toggle";
+  summaryToggle.textContent = options.nested ? "Read follow-up" : "Read muse";
+
+  summary.append(summaryCopy, summaryToggle);
+  thread.appendChild(summary);
+
+  const body = document.createElement("div");
+  body.className = "muse-thread-body";
+  body.appendChild(buildPostCard(post, {
+    includeComments: true,
+    subMusingCount: approvedSubMusings.length,
+    allowComment: options.allowComment,
+    allowSignals: options.allowSignals,
+    currentUserEmail: options.currentUserEmail || ""
+  }));
+
+  if (approvedSubMusings.length > 0) {
+    const subMusingSection = document.createElement("section");
+    subMusingSection.className = "sub-musing-section";
+
+    const subMusingHeading = document.createElement("h3");
+    subMusingHeading.textContent = "Sub-musings";
+
+    const subMusingLead = document.createElement("p");
+    subMusingLead.className = "lead compact";
+    subMusingLead.textContent = "Open each follow-up to read the approved sub-musing and its own discussions.";
+
+    const subMusingList = document.createElement("div");
+    subMusingList.className = "stack-list nested-muse-list";
+    approvedSubMusings.forEach((subMusing) => {
+      subMusingList.appendChild(buildMusingThread(subMusing, {
+        nested: true,
+        open: false,
+        includeSubMusings: false,
+        posts,
+        comments,
+        allowComment: options.allowComment,
+        allowSignals: options.allowSignals,
+        currentUserEmail: options.currentUserEmail || ""
+      }));
+    });
+
+    subMusingSection.append(subMusingHeading, subMusingLead, subMusingList);
+    body.appendChild(subMusingSection);
+  }
+
+  thread.appendChild(body);
+  return thread;
+}
+
 function renderUserPosts(session) {
   const feed = document.getElementById("approved-feed");
   const feedEmpty = document.getElementById("feed-empty-state");
@@ -1371,12 +2178,8 @@ function renderUserPosts(session) {
   const notificationList = document.getElementById("notification-list");
   const notificationEmpty = document.getElementById("notification-empty-state");
 
-  if (!feed || !feedEmpty || !userPosts || !userEmpty || !notificationList || !notificationEmpty) {
-    return;
-  }
-
   const posts = getPosts();
-  const weeklyPost = getLatestApprovedPost(posts);
+  const recentWeeklyPosts = getRecentApprovedPosts(posts, 3);
   const mine = session
     ? posts.filter((post) =>
       post.userEmail === session.email &&
@@ -1392,90 +2195,198 @@ function renderUserPosts(session) {
     )
     : [];
 
-  feed.innerHTML = "";
-  if (weeklyPost) {
-    feed.appendChild(buildPostCard(weeklyPost, {
-      includeComments: true,
-      allowComment: session?.role === "user",
-      allowSignals: session?.role === "user",
-      currentUserEmail: session?.email || ""
-    }));
-
-    const approvedSubMusings = getApprovedSubMusings(posts, weeklyPost.id);
-    if (approvedSubMusings.length > 0) {
-      const subMusingSection = document.createElement("section");
-      subMusingSection.className = "sub-musing-section";
-
-      const subMusingHeading = document.createElement("h3");
-      subMusingHeading.textContent = "Sub-musings";
-
-      const subMusingLead = document.createElement("p");
-      subMusingLead.className = "lead compact";
-      subMusingLead.textContent = "Follow-up musings approved by council based on community response.";
-
-      const subMusingList = document.createElement("div");
-      subMusingList.className = "stack-list";
-      approvedSubMusings.forEach((subMusing) => {
-        subMusingList.appendChild(buildPostCard(subMusing, {
-          includeComments: true,
-          allowComment: session?.role === "user",
-          allowSignals: session?.role === "user",
-          currentUserEmail: session?.email || ""
-        }));
-      });
-
-      subMusingSection.append(subMusingHeading, subMusingLead, subMusingList);
-      feed.appendChild(subMusingSection);
-    }
+  if (feed) {
+    feed.innerHTML = "";
+    const comments = getComments();
+    recentWeeklyPosts.forEach((post, index) => {
+      feed.appendChild(buildMusingThread(post, {
+        open: index === 0,
+        posts,
+        comments,
+        allowComment: session?.role === "user",
+        allowSignals: session?.role === "user",
+        currentUserEmail: session?.email || ""
+      }));
+    });
   }
-  feedEmpty.hidden = Boolean(weeklyPost);
 
-  notificationList.innerHTML = "";
-  reviewNotifications.forEach((post) => {
-    const card = document.createElement("article");
-    card.className = "notification-card";
+  if (feedEmpty) {
+    feedEmpty.hidden = recentWeeklyPosts.length > 0;
+  }
 
-    const title = document.createElement("h3");
-    title.textContent = post.status === "rejected"
-      ? `Post rejected: ${post.title}`
-      : `Revision requested: ${post.title}`;
+  if (notificationList) {
+    notificationList.innerHTML = "";
+    reviewNotifications.forEach((post) => {
+      const card = document.createElement("article");
+      card.className = "notification-card";
 
-    const text = document.createElement("p");
-    text.textContent = post.status === "rejected"
-      ? "The council rejected this submission. You can submit a new version if needed."
-      : "The council requested revision. Please update and resubmit with clearer framing.";
+      const title = document.createElement("h3");
+      title.textContent = post.status === "rejected"
+        ? `Post rejected: ${post.title}`
+        : `Revision requested: ${post.title}`;
 
-    const meta = document.createElement("div");
-    meta.className = "meta-row";
-    meta.textContent = post.status === "rejected"
-      ? `Rejected ${formatDate(post.rejectedAt)}`
-      : `Revision requested ${formatDate(post.revisionRequestedAt)}`;
+      const text = document.createElement("p");
+      text.textContent = post.status === "rejected"
+        ? "The council rejected this submission. You can submit a new version if needed."
+        : "The council requested revision. Please update and resubmit with clearer framing.";
 
-    const closeButton = document.createElement("button");
-    closeButton.type = "button";
-    closeButton.className = "secondary notification-close";
-    closeButton.textContent = "X";
-    closeButton.dataset.action = "dismiss-notification";
-    closeButton.dataset.postId = String(post.id);
+      const meta = document.createElement("div");
+      meta.className = "meta-row";
+      meta.textContent = post.status === "rejected"
+        ? `Rejected ${formatDate(post.rejectedAt)}`
+        : `Revision requested ${formatDate(post.revisionRequestedAt)}`;
 
-    card.append(title, text, meta, closeButton);
-    notificationList.appendChild(card);
+      const closeButton = document.createElement("button");
+      closeButton.type = "button";
+      closeButton.className = "secondary notification-close";
+      closeButton.textContent = "X";
+      closeButton.dataset.action = "dismiss-notification";
+      closeButton.dataset.postId = String(post.id);
+
+      card.append(title, text, meta, closeButton);
+      notificationList.appendChild(card);
+    });
+  }
+
+  if (notificationEmpty) {
+    notificationEmpty.hidden = reviewNotifications.length > 0;
+  }
+
+  if (userPosts) {
+    userPosts.innerHTML = "";
+    mine.forEach((post) => {
+      userPosts.appendChild(buildPostCard(post, { showOwner: true }));
+    });
+  }
+
+  if (userEmpty) {
+    userEmpty.hidden = mine.length > 0;
+  }
+}
+
+function bindMusingNavigation() {
+  const feed = document.getElementById("approved-feed");
+  if (!feed) {
+    return;
+  }
+
+  feed.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) {
+      return;
+    }
+
+    const actionSource = target.closest("[data-action='open-sub-musings']");
+    if (!(actionSource instanceof HTMLElement)) {
+      return;
+    }
+
+    const postId = Number(actionSource.dataset.postId);
+    if (!postId) {
+      return;
+    }
+
+    const thread = feed.querySelector(`.muse-thread-card[data-post-id="${postId}"]`);
+    if (!(thread instanceof HTMLDetailsElement)) {
+      return;
+    }
+
+    thread.open = true;
+
+    const subMusingSection = thread.querySelector(".sub-musing-section");
+    if (!(subMusingSection instanceof HTMLElement)) {
+      return;
+    }
+
+    const nestedThreads = subMusingSection.querySelectorAll(".muse-thread-card.is-nested");
+    nestedThreads.forEach((node) => {
+      if (node instanceof HTMLDetailsElement) {
+        node.open = true;
+      }
+    });
+
+    const streamBlocks = subMusingSection.querySelectorAll(".response-stream");
+    streamBlocks.forEach((node) => {
+      if (node instanceof HTMLDetailsElement) {
+        node.open = true;
+      }
+    });
+
+    window.requestAnimationFrame(() => {
+      subMusingSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
   });
-  notificationEmpty.hidden = reviewNotifications.length > 0;
+}
 
-  userPosts.innerHTML = "";
-  mine.forEach((post) => {
-    userPosts.appendChild(buildPostCard(post, { showOwner: true }));
+function bindThemeSettings() {
+  const form = document.getElementById("theme-settings-form");
+  if (!(form instanceof HTMLFormElement)) {
+    return;
+  }
+
+  const message = document.getElementById("theme-settings-message");
+  const activeThemeName = document.getElementById("active-theme-name");
+  const activeThemeDescription = document.getElementById("active-theme-description");
+
+  const syncThemeUi = (themeInput) => {
+    const theme = getThemeOption(themeInput);
+    const selectedInput = form.querySelector(`input[name="themePreference"][value="${theme.key}"]`);
+    if (selectedInput instanceof HTMLInputElement) {
+      selectedInput.checked = true;
+    }
+    if (activeThemeName) {
+      activeThemeName.textContent = theme.label;
+    }
+    if (activeThemeDescription) {
+      activeThemeDescription.textContent = theme.description;
+    }
+  };
+
+  const applyAndPersistTheme = (themeInput, confirmationText) => {
+    const theme = saveThemePreference(themeInput);
+    applyThemePreference(theme);
+    syncThemeUi(theme);
+    if (message) {
+      message.textContent = confirmationText || `${getThemeOption(theme).label} aesthetic applied to this device.`;
+    }
+  };
+
+  syncThemeUi(getThemePreference());
+
+  form.addEventListener("change", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLInputElement) || target.name !== "themePreference") {
+      return;
+    }
+
+    const theme = getThemeOption(target.value);
+    applyAndPersistTheme(theme.key, `${theme.label} aesthetic applied. Changes are already live.`);
   });
-  userEmpty.hidden = mine.length > 0;
+
+  form.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) {
+      return;
+    }
+
+    const resetButton = target.closest("[data-action='reset-theme-preference']");
+    if (!resetButton) {
+      return;
+    }
+
+    event.preventDefault();
+    const theme = getThemeOption(DEFAULT_THEME);
+    applyAndPersistTheme(theme.key, `${theme.label} aesthetic restored.`);
+  });
 }
 
 function configureUserPageAccess(session) {
-  if (document.body.dataset.page !== "user") {
+  if (!isUserAreaPage(document.body.dataset.page)) {
     return;
   }
 
   const isMember = session?.role === "user";
+  const taskbar = document.getElementById("bottom-taskbar");
   const logoutButton = document.getElementById("logout-button");
   const loginNavButton = document.getElementById("login-nav-button");
   const submitSection = document.getElementById("submit-section");
@@ -1506,9 +2417,13 @@ function configureUserPageAccess(session) {
   }
   if (feedLead) {
     feedLead.textContent = isMember
-      ? "One weekly musing is curated below. Respond in structured streams, use hearts for likes, and open the menu for additional actions."
-      : "You can read the weekly musing without login. Login is required to respond.";
+      ? "Three recent weekly muses are curated below. Open a muse to browse its sub-musings and discussion streams, use hearts for likes, and open the menu for additional actions."
+      : "You can read the last three approved weekly muses without login. Login is required to respond.";
   }
+  if (taskbar) {
+    taskbar.hidden = !isMember;
+  }
+  document.body.classList.toggle("has-bottom-taskbar", isMember && Boolean(taskbar));
 }
 
 function bindPostSubmission(session) {
@@ -1911,6 +2826,37 @@ function bindCommentSubmission(session) {
     }
 
     const action = String(actionSource.dataset.action || "");
+    if (["toggle-reply-form", "cancel-reply-form"].includes(action)) {
+      const item = actionSource.closest(".comment-item");
+      if (!(item instanceof HTMLElement)) {
+        return;
+      }
+
+      const replyForm = item.querySelector(".reply-form");
+      if (!(replyForm instanceof HTMLFormElement)) {
+        return;
+      }
+
+      if (action === "cancel-reply-form") {
+        replyForm.hidden = true;
+        replyForm.reset();
+        const replyMessage = replyForm.querySelector(".message");
+        if (replyMessage instanceof HTMLElement) {
+          replyMessage.textContent = "";
+        }
+        return;
+      }
+
+      replyForm.hidden = !replyForm.hidden;
+      if (!replyForm.hidden) {
+        const replyField = replyForm.querySelector('textarea[name="comment"]');
+        if (replyField instanceof HTMLTextAreaElement) {
+          replyField.focus();
+        }
+      }
+      return;
+    }
+
     if (!["save-response-draft", "clear-response-draft"].includes(action)) {
       return;
     }
@@ -1974,7 +2920,13 @@ function bindCommentSubmission(session) {
 
   feed.addEventListener("submit", (event) => {
     const target = event.target;
-    if (!(target instanceof HTMLFormElement) || !target.classList.contains("comment-form")) {
+    if (!(target instanceof HTMLFormElement)) {
+      return;
+    }
+
+    const isTopLevelResponseForm = target.classList.contains("comment-form");
+    const isReplyForm = target.classList.contains("reply-form");
+    if (!isTopLevelResponseForm && !isReplyForm) {
       return;
     }
 
@@ -1983,17 +2935,27 @@ function bindCommentSubmission(session) {
     const content = String(formData.get("comment") || "").trim();
     const postId = Number(target.dataset.postId);
     const responseType = String(formData.get("responseType") || "").trim();
+    const parentResponseId = Number(target.dataset.parentResponseId);
     const message = target.querySelector(".message");
     const wordCount = countWords(content);
 
     if (!Number.isFinite(postId)) {
       return;
     }
-    clearPendingAutosave(postId);
+    if (isTopLevelResponseForm) {
+      clearPendingAutosave(postId);
+    }
 
     if (!content) {
       if (message instanceof HTMLElement) {
         message.textContent = "Enter your response before submitting.";
+      }
+      return;
+    }
+
+    if (isReplyForm && !Number.isFinite(parentResponseId)) {
+      if (message instanceof HTMLElement) {
+        message.textContent = "This reply target is unavailable.";
       }
       return;
     }
@@ -2013,12 +2975,27 @@ function bindCommentSubmission(session) {
     }
 
     const comments = getComments();
+    if (isReplyForm) {
+      const parentResponse = comments.find((response) =>
+        response.id === parentResponseId &&
+        response.postId === postId &&
+        response.status !== "removed"
+      );
+
+      if (!parentResponse) {
+        if (message instanceof HTMLElement) {
+          message.textContent = "The response you are commenting on is no longer available.";
+        }
+        return;
+      }
+    }
+
     comments.unshift({
       id: Date.now(),
       postId,
       userEmail: session.email,
       responseType,
-      parentResponseId: null,
+      parentResponseId: isReplyForm ? parentResponseId : null,
       content,
       likedBy: [],
       resonatedBy: [],
@@ -2034,13 +3011,18 @@ function bindCommentSubmission(session) {
     });
     saveComments(comments);
 
-    try {
-      clearResponseDraft(postId, session.email);
-    } catch (error) {
-      // Ignore draft cleanup failure; the response was still submitted successfully.
+    if (isTopLevelResponseForm) {
+      try {
+        clearResponseDraft(postId, session.email);
+      } catch (error) {
+        // Ignore draft cleanup failure; the response was still submitted successfully.
+      }
     }
 
     target.reset();
+    if (isReplyForm) {
+      target.hidden = true;
+    }
     if (message instanceof HTMLElement) {
       message.textContent = "";
     }
@@ -2086,28 +3068,8 @@ function bindResponseSignals(session) {
     return;
   }
 
-  feed.addEventListener("click", (event) => {
-    const target = event.target;
-    if (!(target instanceof HTMLElement)) {
-      return;
-    }
-
-    const actionSource = target.closest("[data-action]");
-    if (!(actionSource instanceof HTMLElement)) {
-      return;
-    }
-
-    const action = actionSource.dataset.action;
-    if (![
-      "signal-resonate",
-      "signal-discuss",
-      "open-report-form",
-      "like-response",
-      "request-sub-musing"
-    ].includes(String(action || ""))) {
-      return;
-    }
-
+  const runResponseAction = (actionSource, actionInput) => {
+    const action = String(actionInput || "");
     const commentId = Number(actionSource.dataset.commentId);
     if (!commentId) {
       return;
@@ -2159,6 +3121,10 @@ function bindResponseSignals(session) {
           detailsField.focus();
         }
       }
+      const actionMenu = actionSource.closest(".action-menu");
+      if (actionMenu instanceof HTMLDetailsElement) {
+        actionMenu.open = false;
+      }
       return;
     }
 
@@ -2207,6 +3173,31 @@ function bindResponseSignals(session) {
 
     saveComments(comments);
     renderUserPosts(session);
+  };
+
+  feed.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) {
+      return;
+    }
+
+    const actionSource = target.closest("[data-action]");
+    if (!(actionSource instanceof HTMLElement)) {
+      return;
+    }
+
+    const action = String(actionSource.dataset.action || "");
+    if (![
+      "signal-resonate",
+      "signal-discuss",
+      "open-report-form",
+      "like-response",
+      "request-sub-musing"
+    ].includes(action)) {
+      return;
+    }
+
+    runResponseAction(actionSource, action);
   });
 
   feed.addEventListener("submit", (event) => {
@@ -2462,15 +3453,30 @@ function initializePageFeatures() {
     bindFlaggedResponseModeration();
   }
 
-  if (page === "user") {
+  if (isUserAreaPage(page)) {
     configureUserPageAccess(session);
+  }
+
+  if (page === "user") {
     renderUserPosts(session);
     bindGuestLoginModal();
+    bindMusingNavigation();
+
+    if (session?.role === "user") {
+      bindCommentSubmission(session);
+      bindResponseSignals(session);
+    }
+  }
+
+  if (page === "user-settings") {
+    bindThemeSettings();
+  }
+
+  if (page === "user-suggestion") {
+    renderUserPosts(session);
 
     if (session?.role === "user") {
       bindPostSubmission(session);
-      bindCommentSubmission(session);
-      bindResponseSignals(session);
       bindNotificationDismissal();
     }
   }
@@ -2481,6 +3487,7 @@ ensurePosts();
 ensureComments();
 ensureDismissedNotifications();
 ensureResponseDrafts();
+applyThemePreference();
 guardPage();
 bindLogin();
 bindSignup();
