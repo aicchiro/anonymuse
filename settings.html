@@ -24,14 +24,23 @@
         </div>
         <div class="page-actions">
           <a id="login-nav-button" class="button-link secondary" href="index.html?login=1">Login</a>
+          <div id="header-profile" class="header-profile" hidden>
+            <div id="header-profile-avatar" class="header-avatar" aria-hidden="true"></div>
+            <div class="header-profile-copy">
+              <strong id="header-profile-name">Member</strong>
+              <span id="header-profile-email">member@example.com</span>
+            </div>
+          </div>
           <button id="logout-button" class="secondary">Logout</button>
         </div>
       </div>
       <p id="member-lead" class="lead">Only standard users can stay on this page. Admins are redirected to their dashboard.</p>
       <div class="card-grid">
         <article class="stat-card">
-          <h2>Account Type</h2>
+          <h2>Account</h2>
           <p id="account-role">User</p>
+          <p id="account-email" class="field-hint">Login to view account details.</p>
+          <div id="account-avatar-summary" class="account-avatar-summary"></div>
         </article>
         <article class="stat-card">
           <h2>Active Aesthetic</h2>
@@ -110,6 +119,72 @@
       </form>
     </section>
 
+    <section id="account-settings-section" class="panel">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Account Settings</p>
+          <h2>Preferences and password</h2>
+        </div>
+      </div>
+
+      <form id="account-settings-form" class="form">
+        <label>
+          <span>Display name</span>
+          <input type="text" name="displayName" maxlength="40" placeholder="How your profile name should appear">
+        </label>
+        <label>
+          <span>Profile picture</span>
+          <input type="file" name="profilePicture" accept="image/*">
+          <small class="field-hint">Square images work best. Max 2 MB.</small>
+        </label>
+        <div id="profile-picture-preview" class="profile-picture-preview" hidden></div>
+        <div class="actions-row compact-actions">
+          <button type="button" class="secondary" data-action="remove-profile-picture">Remove picture</button>
+        </div>
+        <label class="checkline">
+          <input type="checkbox" name="reviewUpdatesEnabled">
+          <span>Show council review updates and revision notices in-app.</span>
+        </label>
+        <label class="checkline">
+          <input type="checkbox" name="weeklyDigestEnabled">
+          <span>Enable the weekly digest preference for future summaries.</span>
+        </label>
+        <label>
+          <span>Default feed sort</span>
+          <select name="defaultFeedSort">
+            <option value="recent">Most recent</option>
+            <option value="oldest">Oldest first</option>
+            <option value="depth">Most depth</option>
+            <option value="discussion">Most discussed</option>
+          </select>
+        </label>
+        <label class="checkline">
+          <input type="checkbox" name="hideHighSensitivity">
+          <span>Hide high-sensitivity musings from the main feed by default.</span>
+        </label>
+        <button type="submit">Save account settings</button>
+        <p id="account-settings-message" class="message" aria-live="polite"></p>
+      </form>
+
+      <form id="password-settings-form" class="form top-divider">
+        <p class="eyebrow">Password</p>
+        <label>
+          <span>Current password</span>
+          <input type="password" name="currentPassword" placeholder="Enter current password">
+        </label>
+        <label>
+          <span>New password</span>
+          <input type="password" name="nextPassword" placeholder="At least 8 characters">
+        </label>
+        <label>
+          <span>Confirm new password</span>
+          <input type="password" name="confirmPassword" placeholder="Re-enter new password">
+        </label>
+        <button type="submit">Update password</button>
+        <p id="password-settings-message" class="message" aria-live="polite"></p>
+      </form>
+    </section>
+
     <section class="panel">
       <div class="section-heading">
         <div>
@@ -153,6 +228,6 @@
     <a class="task-link" href="suggestion.html">Suggestion</a>
   </nav>
 
-  <script src="app.js"></script>
+  <script src="client.js"></script>
 </body>
 </html>

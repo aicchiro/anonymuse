@@ -21,6 +21,13 @@
         <h1>Community feed</h1>
         <div class="page-actions">
           <a id="login-nav-button" class="button-link secondary" href="index.html?login=1">Login</a>
+          <div id="header-profile" class="header-profile" hidden>
+            <div id="header-profile-avatar" class="header-avatar" aria-hidden="true"></div>
+            <div class="header-profile-copy">
+              <strong id="header-profile-name">Member</strong>
+              <span id="header-profile-email">member@example.com</span>
+            </div>
+          </div>
           <button id="logout-button" class="secondary">Logout</button>
         </div>
       </div>
@@ -30,15 +37,36 @@
       <div class="reddit-feed-toolbar">
         <div>
           <p class="eyebrow">Weekly Muses</p>
-          <h2>Recent council-approved reflections</h2>
+          <h2>Approved reflections and archive</h2>
         </div>
-        <div class="reddit-filter-row" aria-label="Feed filters">
-          <span class="filter-pill is-active">Updated weekly</span>
-          <span class="filter-pill">Council reviewed</span>
-          <span class="filter-pill">Open for response</span>
-        </div>
+        <form id="feed-controls" class="feed-discovery-grid">
+          <label>
+            <span>Search</span>
+            <input id="feed-search" type="search" name="search" placeholder="Search titles, prompts, or content">
+          </label>
+          <label>
+            <span>Category</span>
+            <select id="feed-category" name="category">
+              <option value="all">All categories</option>
+            </select>
+          </label>
+          <label>
+            <span>Sort</span>
+            <select id="feed-sort" name="sort">
+              <option value="recent">Most recent</option>
+              <option value="oldest">Oldest first</option>
+              <option value="depth">Most depth</option>
+              <option value="discussion">Most discussed</option>
+            </select>
+          </label>
+          <label class="checkline compact-checkline">
+            <input id="feed-bookmarks-only" type="checkbox" name="bookmarksOnly">
+            <span>Saved only</span>
+          </label>
+        </form>
       </div>
-      <p id="feed-lead" class="lead compact">Browse the latest approved muses below. Sign in to respond, resonate, or surface a follow-up sub-musing.</p>
+      <p id="feed-lead" class="lead compact">Browse the full council-reviewed archive below. Sign in to respond, save musings, or surface a follow-up sub-musing.</p>
+      <p id="feed-results-summary" class="field-hint"></p>
       <div id="approved-feed" class="stack-list"></div>
       <p id="feed-empty-state" class="empty-state">No approved weekly muses yet.</p>
     </section>
@@ -72,6 +100,6 @@
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <script src="client.js"></script>
 </body>
 </html>
